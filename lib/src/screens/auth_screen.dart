@@ -29,7 +29,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
     _appStateSub = AppStateContainer.of(context).appStateChanges.listen(
       (newState) {
-        /// By using [updateShouldNotify], you'll prevent uncessary rebuild for
+        /// By using [updateShouldNotify], you'll prevent unnecessary rebuild for
         /// changes from other states that are not needed.
         ///
         /// For example, the state changes for [AccountState] made from the [AccountScreen]
