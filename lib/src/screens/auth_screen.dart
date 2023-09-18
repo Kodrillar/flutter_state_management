@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:switch_settings/src/app_state.dart';
 import 'package:switch_settings/src/app_state_container.dart';
 import 'package:switch_settings/src/screens/account_screen.dart';
 
@@ -15,36 +12,8 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  late StreamSubscription<AppState> _appStateSub;
-
-  @override
-  void dispose() {
-    super.dispose();
-    _appStateSub.cancel();
-  }
-
   @override
   Widget build(BuildContext context) {
-    AuthState authState = AppStateContainer.of(context).appState.authState;
-
-    _appStateSub = AppStateContainer.of(context).appStateChanges.listen(
-      (newState) {
-        /// By using [updateShouldNotify], you'll prevent uncessary rebuild for
-        /// changes from other states that are not needed.
-        ///
-        /// For example, the state changes for [AccountState] made from the [AccountScreen]
-        /// isn't needed on the [AuthScreen], so we have to check for only the changes that
-        /// occured for the currently used state (AuthState).
-        if (authState.updateShouldNotify(newState.authState) && mounted) {
-          setState(() {
-            authState = newState.authState;
-          });
-        }
-      },
-    );
-
-    print('AuthScreen Rebuilt.');
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -59,19 +28,23 @@ class _AuthScreenState extends State<AuthScreen> {
                 hintText: 'Email',
               ),
             ),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Password',
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    AppStateContainer.of(context).toggleTextFieldVisibility();
-                  },
-                  icon: authState.obscurePassword
-                      ? const Icon(Icons.visibility_off)
-                      : const Icon(Icons.visibility),
-                ),
-              ),
-              obscureText: authState.obscurePassword,
+            ValueListenableBuilder(
+              valueListenable: AppStateContainer.of(context).appStateNotifier,
+              builder: (context, value, child) {
+                print('AuthScreen TextField Widget Rebuilt.');
+                return TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      suffixIcon: IconButton(
+                        onPressed: () => AppStateContainer.of(context)
+                            .toggleTextFieldVisibility(),
+                        icon: value.authState.obscurePassword
+                            ? const Icon(Icons.visibility_off)
+                            : const Icon(Icons.visibility),
+                      ),
+                    ),
+                    obscureText: value.authState.obscurePassword);
+              },
             ),
             const SizedBox(height: 50),
             ElevatedButton(

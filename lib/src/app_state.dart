@@ -21,17 +21,7 @@ class AppState {
       'AppState(authState: $authState, accountState: $accountState)';
 }
 
-class BaseStateNotification<T> {
-  const BaseStateNotification();
-  // Checks if newly emitted value is different.
-  ///
-  /// This returns false if
-  /// newly emitted value is the same as current value.
-  /// If newly emitted value is different, this returns true;
-  bool updateShouldNotify(T state) => state != this;
-}
-
-class AuthState extends BaseStateNotification<AuthState> {
+class AuthState {
   final bool obscurePassword;
 
   const AuthState({this.obscurePassword = false});
@@ -53,7 +43,7 @@ class AuthState extends BaseStateNotification<AuthState> {
   String toString() => 'AuthState(obscurePassword: $obscurePassword)';
 }
 
-class AccountState extends BaseStateNotification<AccountState> {
+class AccountState {
   const AccountState({this.username});
   final String? username;
 

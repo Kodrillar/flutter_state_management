@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:switch_settings/src/app_state.dart';
 
@@ -34,29 +32,21 @@ class AppStateContainer extends StatefulWidget {
 /// State class made public for typed access.
 /// Only one instance will be created by StatefulWidget's createState() method. ;
 class AppStateContainerState extends State<AppStateContainer> {
-  AppState appState = AppState();
-
-  final StreamController<AppState> appStateStreamController =
-      StreamController<AppState>.broadcast();
-
-  Stream<AppState> get appStateChanges => appStateStreamController.stream;
+  late var appStateNotifier = ValueNotifier(AppState());
 
   void toggleTextFieldVisibility() {
-    appState = appState.copyWith(
-      authState: appState.authState.copyWith(
-        obscurePassword: !appState.authState.obscurePassword,
+    appStateNotifier.value = appStateNotifier.value.copyWith(
+      authState: appStateNotifier.value.authState.copyWith(
+        obscurePassword: !appStateNotifier.value.authState.obscurePassword,
       ),
     );
-
-    appStateStreamController.add(appState);
   }
 
   void updateUsername(String username) {
-    appState = appState.copyWith(
-      accountState: appState.accountState.copyWith(username: username),
+    appStateNotifier.value = appStateNotifier.value.copyWith(
+      accountState:
+          appStateNotifier.value.accountState.copyWith(username: username),
     );
-
-    appStateStreamController.add(appState);
   }
 
   @override
