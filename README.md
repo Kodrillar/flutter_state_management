@@ -6,6 +6,10 @@ A new Flutter project demonstrating how to manage state with `setState`, `Inheri
 
 The `AppStateContainer` holds all the possible states that exist in the app. This widget should be mounted at the top-most part of the widget tree as it wraps its child with an `InheritedWidget` that can be used to obtain the app's state in every descendant.
 
+# Implementaion
+
+Two branches exists in this repo, `master` and `valueListenable-impl`. The `master` branch contains the state management implementaion with `setState`, `InheritedWidget` and `Stream` while the `valueListenable-impl` contains the implementation with `InheritedWidget`,`ValueNotifier` and `ValueListenableBuilder`.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
