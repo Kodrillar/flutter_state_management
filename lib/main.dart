@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:switch_settings/app_state_container.dart';
-import 'package:switch_settings/auth_screen.dart';
+import 'package:switch_settings/src/app_state_container.dart';
+import 'package:switch_settings/src/screens/auth_screen.dart';
 
 void main() {
   runApp(const AppStateContainer(child: MyApp()));
